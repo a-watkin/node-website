@@ -15,9 +15,14 @@ function handler(req, res) {
     return res.end();
   } else if (parsedUrl.pathname === "/hello") {
     res.writeHead(200, { "Content-type": "text/plain" });
-    let name = parsedUrl.query.name;
-    res.write(`Hello ${name}`);
-    return res.end();
+    const name = parsedUrl.query.name;
+    if (!name) {
+      res.writeHead(404, { "Content-type": "text/plain" });
+      return res.end();
+    } else {
+      res.write(`Hello ${name}`);
+      return res.end();
+    }
   } else {
     res.writeHead(404, { "Content-type": "text/plain" });
     return res.end();
