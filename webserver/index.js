@@ -2,9 +2,10 @@ const express = require("express");
 
 const app = express();
 
+// causing server to hang
 app.use((req, res, next) => {
   res.setHeader("x-server-date", new Date());
-  return next;
+  return next();
 });
 
 app.get("/", (req, res) => {
