@@ -2,10 +2,22 @@ const express = require("express");
 
 const app = express();
 
-// causing server to hang
 app.use((req, res, next) => {
   res.setHeader("x-server-date", new Date());
+  //   if you don't call next() here it will hand the server
   return next();
+});
+
+// this will crash the server
+app.get("/throw", (req, res, next) => {
+  throw new Error();
+});
+
+// this will not crash the server
+app.get("/next", (req, res, next) => {
+  setTimeout(() => {
+    next(new Error("Something is wrong"));
+  }, 1000);
 });
 
 app.get("/", (req, res) => {
@@ -24,6 +36,7 @@ app.get("/hello", (req, res) => {
   return res.send(`Hello: ${req.query.name}`);
 });
 
+// you can have multiple params and you can also use regular expressions
 app.get("/user/:name", (req, res) => {
   return res.send(`Userprofile of ${req.params.name}`);
 });
