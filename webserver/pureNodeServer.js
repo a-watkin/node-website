@@ -3,7 +3,6 @@ const url = require("url");
 
 function handler(req, res) {
   const parsedUrl = url.parse(req.url, true);
-  console.log(parsedUrl);
 
   if (parsedUrl.pathname === "/") {
     res.writeHead(200, { "Content-type": "text/plain" });
@@ -21,6 +20,17 @@ function handler(req, res) {
       return res.end();
     } else {
       res.write(`Hello ${name}`);
+      return res.end();
+    }
+  } else if (parsedUrl.pathname.startsWith("/user/")) {
+    const regex = new RegExp("/user/(.+)");
+    const matches = regex.exec(parsedUrl.pathname);
+    if (!matches || !matches[1]) {
+      res.writeHead(404, { "Content-type": "text/plain" });
+      return res.end();
+    } else {
+      res.writeHead(200, { "Content-type": "text/plain" });
+      res.write(`Userprofile of ${matches[1]}`);
       return res.end();
     }
   } else {
