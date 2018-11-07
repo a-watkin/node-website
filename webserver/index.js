@@ -2,6 +2,10 @@ const express = require("express");
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.setHeader("x-server-date", new Date());
+});
+
 app.get("/", (req, res) => {
   return res.send("hello i am a webserver");
 });
