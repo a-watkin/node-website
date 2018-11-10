@@ -12,10 +12,10 @@ html
           .row
             .col-md-12
               .error-template
-                h1
-                  | Oops!
-                h2
-                  | 404 Not Found
+                h1=status
+                h2=message
+                if(error)
+                    pre=error.stack
                 .error-details
                   | Sorry, an error has occured, Requested page not found!
                 .error-actions
