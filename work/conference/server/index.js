@@ -1,5 +1,7 @@
 const express = require("express");
+const creatError = require("http-errors");
 const path = require("path");
+
 const app = express();
 
 app.set("view engine", "pug");
@@ -25,6 +27,26 @@ app.get("/favicon.ico", (req, res, next) => {
 
 // routing middleware
 app.use("/", routes());
+
+// Uses http-error to override default 404 behaviour of express
+app.use((req, res, next) => {
+  return next(creatError(404, "File not found"));
+});
+// Error middleware for the above
+app.use((err, req, res, next) => {
+  // makes the error message available in the template
+  res.locals.message = err.message;
+  // either the message from above made with creatError or internal server error 500
+  const status = err.status || 500;
+  // make it available in the template
+  res.locals.status = status;
+  // if development show the whole error stack, otherwise return and empty object
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+  // send error status back
+  res.status(status);
+  // return the error page
+  return res.render("error");
+});
 
 app.listen(3000);
 
