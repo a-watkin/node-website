@@ -7,7 +7,8 @@ const FeedbackRoute = require("./feedback");
 
 module.exports = () => {
   router.get("/", (req, res, next) => {
-    return res.send("Index");
+    // tells express to render index.js from views
+    res.render("index");
   });
 
   router.use("/speakers", SpeakersRoute());
