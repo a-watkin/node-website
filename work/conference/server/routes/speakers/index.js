@@ -4,7 +4,8 @@ const router = express.Router();
 
 module.exports = () => {
   router.get("/", (req, res, next) => {
-    return res.send("All Speakers");
+    console.log("speakers route");
+    return res.render("speakers");
   });
 
   // the URL path here is speakers/someName
