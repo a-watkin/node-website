@@ -1,8 +1,12 @@
 const express = require("express");
 const creatError = require("http-errors");
 const path = require("path");
+// server env varibles
+const configs = require("./config");
 
 const app = express();
+
+const config = configs[app.get("env")];
 
 app.set("view engine", "pug");
 
